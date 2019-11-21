@@ -22,11 +22,11 @@ pdf_file = open("/home/xoqhdgh/다운로드/publi.pdf", "rb")
 
 contents = read_pdf_file(pdf_file)
 arxiv = contents.split("arXiv:")
-b = list
+b = []
 for i in arxiv[1:-1]:
     a = i.split('.')
     c = '.'.join(a[0:2])
-    print(c)
+    b.append(c)
 
 print(b)
 
