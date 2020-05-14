@@ -6,9 +6,7 @@ from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from io import StringIO
 from io import open
-from urllib.request import urlopen
-
-
+import urllib.request
 
 def read_pdf_file(pdfFile):
     rsrcmgr = PDFResourceManager()
@@ -28,7 +26,8 @@ pdf_file = open("./publi.pdf", "rb")
 contents = read_pdf_file(pdf_file)
 arxiv = contents.split("arXiv:")
 num_list = []
-for i in arxiv[1:-1]:
+
+for i in arxiv[1:125]:
     a = i.split('.')
     c = '.'.join(a[0:2])
     num_list.append(c)
@@ -45,8 +44,10 @@ cnt=0
 filtered_list=[]
 
 for link_num in num_list:
-    link = 'https://arxiv.org/abs/' + link_num
-    cnt += 1
+    link = 'https://arxiv.org/abs/2002.06398'
+    #link = 'https://arxiv.org/abs/' + link_num
+    
+    #cnt += 1
 
 
     req=requests.get(link)
@@ -56,18 +57,29 @@ for link_num in num_list:
 
     #isDOI=True
 
-    doi=[]
-
     a_tags = soup.select("td > a")
+    
+    data_doi = str()
+    href = str()
 
     for a_tag in a_tags:
         if 'doi.org'in a_tag['href']:
-            doi.append(a_tag['data-doi'])
+            data_doi = a_tag['data-doi']
+            href = a_tag['href']
+            doi_req = requests.get(href)
+            print(doi_req)
+            doi_html = doi_req.text
+            doi_soup = BeautifulSoup(doi_html,'html.parser')
+            #journal = soup.select("head > meta")
+            print(doi_soup)
 
-    if not doi:
+    if not data_doi:
         print("There is no DOI")
         #isDOI = False
     else:
-        print(doi)
+        print(data_doi,href)
         #print("DOI: ", isDOI)
         filtered_list.append(link)
+        cnt +=1
+
+print(cnt)   
