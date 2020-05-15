@@ -2,16 +2,16 @@ from selenium import webdriver
 import time
 
 
-download_dir = "./"
-options = webdriver.ChromeOptions()
+#download_dir = "./"
+#options = webdriver.ChromeOptions()
 
-profile = {"plugins.plugins_list": [{"enabled": False, "name": "Chrome PDF Viewer"}],
-        "download.default_directory": download_dir,
-        "download.extensions_to_open": ".pdf"}
+#profile = {"plugins.plugins_list": [{"enabled": False, "name": "Chrome PDF Viewer"}],
+#        "download.default_directory": download_dir,
+#        "download.extensions_to_open": ".pdf"}
 
-options.add_experimental_option("prefs", profile)
+#options.add_experimental_option("prefs", profile)
 
-driver = webdriver.Chrome('/home/xoqhdgh/다운로드/chromedriver',chrome_options=options)
+driver = webdriver.Chrome('/home/xoqhdgh/다운로드/chromedriver')#,chrome_options=options)
 driver.implicitly_wait(3)
 driver.get('http://kudos.knu.ac.kr/pages/index.htm')
 
