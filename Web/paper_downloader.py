@@ -23,9 +23,13 @@ while True:
     attribute=[]
     
     for i in attribute_name:
+        if i == 'citation_firstpage':
+            if attribute[0]=='Journal of High Energy Physics' or attribute[0]=='The European Physical Journal C':
+                attribute.append(soup.find_all("span",{"data-test":'article-number'})[0].text)
+                continue
+                
         if i == 'citation_date':
             if attribute[0]=='Journal of High Energy Physics' or attribute[0]=='The European Physical Journal C':
-                attribute.append(soup.find_all("meta",{"name":'citation_lastpage'})[0]['content'])
                 attribute.append(soup.find_all("meta",{"name":'citation_online_date'})[0]['content'])
                 parse[3] = 'content/pdf'
                 paper_url = "/".join(parse)
@@ -34,6 +38,8 @@ while True:
                 parse[4] = 'pdf'
                 paper_url = "/".join(parse)
         attribute.append(soup.find_all("meta",{"name":i})[0]['content'])
+
+    print(attribute)
 
     f2.write(",".join(attribute)+"\n")
     f3.write(paper_url+"\n")
